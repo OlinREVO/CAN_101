@@ -57,4 +57,4 @@ Woohoo! You have done it! You have made it to Master! You are one with the world
 #### Cleanup
 After completely the difficult task of getting your code to master, it is now time to clean up the mess you created on the path. For example, we have a public branch that is no longer being used and you have a local branch whose [name is no longer relevant.](null "Name your branches descriptively!) I don't care about how you organize your [personal computer](null "I prefer to keep my computer filesystem organized like a web... or a pile of files. I think a pile of files is a good description.") but I *do* care about our public branches. 
 
-To delete a branch that has been merged to Master [via a pull-request](null "And no other way.") you simply click the `branches` tab at the top, and then click the delete button. Easy, peezy, [cover-girl.](null "Wait, what?!)
+To delete a branch that has been merged to Master [via a pull-request](null "And no other way.") you simply click the `branches` tab at the top, and then click the delete button. Easy, peezy, [cover-girl.](null "Wait, what?!")
