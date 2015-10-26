@@ -30,12 +30,10 @@ We will now (not) go through every single line of code in order to understand wh
 
 This line of code sets up a macro. A brief definition of macro that I found online somewhere: (It’s GNU so it’s Good)
 
-```
-“A macro is a fragment of code which has been given a name. Whenever the name is used, it is replaced by the contents of the macro. There are two kinds of macros. They differ mostly in what they look like when they are used. Object-like macros resemble data objects when used, function-like macros resemble function calls.
+> “A macro is a fragment of code which has been given a name. Whenever the name is used, it is replaced by the contents of the macro. There are two kinds of macros. They differ mostly in what they look like when they are used. Object-like macros resemble data objects when used, function-like macros resemble function calls.
 
-You may define any valid identifier as a macro, even if it is a C keyword. The preprocessor does not know anything about keywords. This can be useful if you wish to hide a keyword such as const from an older compiler that does not understand it.”
-	-https://gcc.gnu.org/onlinedocs/cpp/Macros.html 
-```
+> You may define any valid identifier as a macro, even if it is a C keyword. The preprocessor does not know anything about keywords. This can be useful if you wish to hide a keyword such as const from an older compiler that does not understand it.”
+> -https://gcc.gnu.org/onlinedocs/cpp/Macros.html 
 
 So what this line of code does is sets up F_CPU to be replaced by 1000000L every time F_CPU is mentioned. The number that you see is 1,000,000 with a Long identifier, which is a big enough data type that it won’t overflow. 
 
