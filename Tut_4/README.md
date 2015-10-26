@@ -29,7 +29,7 @@ This ANDs the bits of DDRE with the inverse of the bits set by PE1. “What?” 
 #### Read that Pin
 Now comes the hard part. Actually, this is still really easy. To read the voltage at the input pin, we have to look at a new register. The Port E Input Pins Address (or PINE). If 5V is applied to pin 10 (PE1), then PINE will have a bit flipped to a 1 where PE1 is. 0V the bit will be a 0. So you just check to see if PINE is greater than 0.
 
-If you believed that then you should [stop believing everything I say](https://www.codecademy.com/courses/python-intermediate-en-KE1UJ/0/1. Instead you will have to check to see if the correct bit of PINE is set to 1. "You might wonder why I would write a tutorial where I would lie, and there is really no good answer.")
+If you believed that then you should [stop believing everything I say](https://www.codecademy.com/courses/python-intermediate-en-KE1UJ/0/1. Instead you will have to check to see if the correct bit of PINE is set to 1. "You might wonder why I would write a tutorial where I would lie, and there is really no good answer."). Instead, you should do:
 
 ```
 if (PINE & _BV(PE1) ) {
