@@ -21,20 +21,21 @@ Learn what "blinky" does line by line.
 #### Tut 4 - Inputs & Outputs
 Learn to use digital inputs, analog inputs and analog outputs. From this point on, you can basically do everything with an ATmega.
 
-#### Tut 5 - CAN
-TODO: CAN
-
-#### Tut 6 - Interrupts
-TODO: Interrupts
-
 #### Learn Git
-TODO: A general guide on good git practice.
-
-#### Learn C
-TODO: A general guide on how to program in C.
+A general overview of how to use Git and how we are using git for our project. Remember to [NEVER. PUSH. TO. MASTER.](null "NEVER DO IT!")
 
 #### Style-Guide
-TODO: Style guide for our code
+The general code style that we will use. Also includes some comments about commenting your code. 
+
+## Soon to come [Tutorials](null "Maybe")
+#### Tut 5 - CAN
+CAN and how to use it on an ATmega, and how to use our API. 
+
+#### Tut 6 - Interrupts
+Interrupts on an ATmega. You might think you know it all, but you don't! Learn to program like the pros. 
+
+#### Learn C
+A general guide on how to program in C.
 
 ## FAQ
 #### I Don't know C, What do I do?
