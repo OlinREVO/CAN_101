@@ -24,7 +24,6 @@ int main (void) {
 ### Line by Line
 We will now (not) go through every single line of code in order to understand what it actually does.
 
-1. 
 ```
 #define F_CPU (1000000L)
 ```
@@ -40,17 +39,23 @@ So what this line of code does is sets up F_CPU to be replaced by 1000000L every
 
 Naively you may think that this line of code sets the frequency of the CPU on the ATmega, and I would tell you that you are clever. Wrong, but clever. Instead, it tells the compiler the frequency of your ATmega. This line needs to be included first because the included libraries will utilize this value.
 
+
+
 ```
 #include <avr/io.h>
 ```
 
 This includes functions for the AVR input and output operations. For our uses, it includes a crap ton of Macros for different memory locations on the ATmega. It is much nicer to write DDRE than 0x001A and causes a lot less confusion. 
 
+
+
 ```
 #include <util/delay.h>
 ```
 
 This allows us to use the _delay_ms() function. The util/delay.h library calls on the F_CPU macro, which is why F_CPU needs to be defined at the very top of the code. Can you piece together why the F_CPU is necessary for delays?
+
+
 
 ```
 int main (void) {
@@ -59,6 +64,8 @@ int main (void) {
 For those that don’t know C, this is the “start” of the program when it is run. This is the most important function. We will always define main as per C11 standards and have an int definition along with it.
 
 If you do not know what I mean by this, hit the google’s and get learning.
+
+
 
 ```
 DDRE |= _BV(PE1);
