@@ -46,7 +46,7 @@ Learn C the Hard Way is a pretty good starter, and honestly just reading anythin
 It is actually time consuming to write tutorials. I will probably get around to it eventually if it is important.
 
 #### Why are there links that lead to (NULL)?
-These are [hover-texts!](NULL "Hi I am hovertext") A [jank](null "So jank") way of forcing github to display [text]("Like me!") when you hover. They require a [link](null "Woops! Not a link"), so that is set to [NULL](null "Null is not a valid link so it breaks! Don't click it!")! 
+These are [hover-texts!](NULL "Hi I am hovertext") A [jank](null "So jank") way of forcing github to display [text](null "Like me!") when you hover. They require a [link](null "Woops! Not a link"), so that is set to [NULL](null "Null is not a valid link so it breaks! Don't click it!")! 
 
 But seriously, don't click unless it says [(LINK)](https://www.youtube.com/watch?v=dQw4w9WgXcQ "See, you can click now!") because otherwise it will send you to a non-existent page or some [random page](http://www.findtheinvisiblecow.com/ "cow? Cow? COW! COW! COW COW COW!!!!") that I find funny.
 
