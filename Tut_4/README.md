@@ -51,26 +51,32 @@ In order to solve this [issue](NULL "Right? You see the issue? Please say you se
 
 So now we have subdivision down, what else?
 
-Time. It is always Time. 
+##### Time. It is always Time. 
 This issue isn’t actually analog specific. Digital stuff relies on time too. Actually, everything relies on time. 
 
 As we learned before, our ATmega’s CPU runs at 1Mhz which is pretty darn fast. In order to use the ADC, we have to tell it at what time rate to sample the voltage on the pin in order to get a reading. I recommend reading the wikipedia article to understand this because it is really solid. https://en.wikipedia.org/wiki/Analog-to-digital_converter 
 
 To do this, we use this line of code:
+
+```
 ADCSRA |= _BV(ADEN) | _BV(ADPS2) | _BV(ADPS1) | _BV(ADPS0);
+```
+[note](NULL "You can use | in between to combine the bits to be flipped. This is the fanciest combo-bit-shifting mumbo-jumbo that is allowed on one line. Anything more and I will hunt you down and make you turn it into multiple well-commented lines.")
 
-We know by now what most of this code does, it sets different bits of the ADCSRA register. ADEN will turn the ADC on, and ADPS[0-2] will tell the ADC how fast to run. Check the datasheet for exact specifications.
+We know by now what most of this code does, it sets different bits of the [ADCSRA register](NULL " It is time to pull up that handy-dandy reference manual."). ADEN will turn the ADC on, and ADPS[0-2] will tell the ADC how fast to run. Check the datasheet for [exact specifications](NULL "Ctrl-F is for cheaters.").
 
-Who Do I Reference? Are You My Relative!?
-No, I am not talking about when you write a research paper. This is for the ADC. Voltage is relative, as is everything in life. The ADC will translate voltage into numbers. Where with digital inputs everything is reference to the ATmega’s ground, the ADC can be set to reference an external source. 
+##### Who Do I Reference? Are You My Relative!?
+No, I am not talking about when you write a research paper. This is for the ADC. Voltage is relative, [as is everything in life](NULL "Is this 3 d33p 5 u? Oh God, what have I become…"). The ADC will translate voltage into numbers. Where with digital inputs everything is reference to the ATmega’s ground, the ADC can be set to reference an external source. 
 
 For now, we will just keep that idea in the back of our head, and set the ADC to just reference internal ground. 
 
+```
 ADCSRB |= _BV(AREFEN);
+```
 
 Starting to feel comfortable with the bit shifting stuff?
 
-Are We Done Yet?
+##### Are We Done Yet?
 Actually, yes. Mostly.
 
 Now we just have to read the ADC. This is actually fairly easy. First we tell the ADC to begin conversion:
