@@ -76,6 +76,10 @@ The AVR programmer should light up with a red light. Notice that the other side 
 ##### Plug the pins in the pins with corresponding pins
 If you were lucky and have one of the ATmegas with small pins on top, this is super easy. Otherwise, do whatever janky thing works to get these connections in the right place.
 
+| MISO  (1) | (2) VCC  |
+| SCK   (3) | (4) MOSI |
+| RESET (5) | (6) GND  |
+
 If the AVR programmer’s light does not turn green, then you wired it upside down. Flip the AVR programmer to fix the problem. If that doesn’t work, you screwed up or the ATmega is broken.
 
 ### You Can Now Program the ATmega!
