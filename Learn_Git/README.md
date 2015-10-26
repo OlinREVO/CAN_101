@@ -75,5 +75,20 @@ git branch -d [BRANCH NAME]
 To remove the old branch. Now you can branch off from master again and continue on!
 
 ## Things Getting Nasty
+Remember before I was talking about Merge conflicts and stuff? Well they are the worst and [I hate them.](null "You will too!") To help prevent diseases such as Merge conflicts, remember to regularly update your master branch and keep your local branch updated with the master branch. This can be done via:
 
+```
+git checkout master
+git pull
+git checkout [BRANCH]
+git merge master
+```
+
+However, sometimes someone will commit a change which will [effect](null "affect?") your work. You will get a merge conflict.
+
+##### Dealing with the nasty
+
+Sometimes there is that pile of poop sitting in the middle of your dorm room, and you are pretty sure it is your roommates fault. It has sat there for a while, with neither of you willing to fix the problem. Eventually you will have to clean it up, and it is better to do it [sooner rather than later.](null "And definitely do it before your significant other comes over and breaks up with you because 'Why the fuck is there a pile of shit on your floor?`")
+
+~~You can see more information about a merge conflict by doing `git status`. This should display a few things, files that are to be [changed](null "in green") and files that are in [conflict](null "in red"). Edit the files in conflict using any [text editing tool you want.](null "If it isn't vim you are a peasant.")~~ I was writing this, and then I realized Github has an awesome writeup of [how to solve a merge conflict (LINK)](https://help.github.com/articles/resolving-a-merge-conflict-from-the-command-line/). Just look at that, I have better work to do. 
 
