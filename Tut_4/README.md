@@ -3,19 +3,19 @@
 #(Advanced Blinky)
 
 
-### The Code
+## The Code
 By now you probably think you are hot shit and that you can do anything. You can output 5V on a pin, and you know what? for some things that is enough.  Sadly, for literally everything else, you are going to need some inputs. 
 
-##### Digital Input
+#### Digital Input
 The first, and easiest, input that you can do is just digital. 5V will be a 1, and 0V  will be a 0. Easy peezy.
 
-##### Analog Input
+#### Analog Input
 The other option is to have a range of voltages, everything from 0V to 5V.  This will utilize the ADC (a built in analog-to-digital converter), but there are some tricks to this.
 
-### We Live in a Digital World
+## We Live in a Digital World
 Like seriously everything we own is digital… Also this part will not go through everything you need to make a [compilable file](https://github.com/OlinREVO/CAN_101/tree/master/Tut_4 "I will still put some source code at the end of something that can be compiled, but you should really be able to do it yourself!")
 
-##### Set a Pin to Digital Input
+#### Set a Pin to Digital Input
 This is actually really easy. Let’s use pin 10, or PE1. For digital output, we had to set the correct bit of DDRE to a 1. For input, we set it to 0, or, because they default to 0, we leave it as is. 
 
 However, that is shitty code practice, and if you assume that the bit is set to 0 in your code I will find you and I will tell you that you did something [stupid](https://github.com/OlinREVO/CAN_101/tree/master/Tut_4 "You should feel bad"). Instead of assuming like an asshole programmer, you can set it nicely like so:
@@ -26,7 +26,7 @@ DDRE &= ~( _BV(PE1) );
 
 This ANDs the bits of DDRE with the inverse of the bits set by PE1. “What?” you may ask. Essentially, `_BV(PE1)` will create 00000010 and the inverse of that (~) is going to be 11111101. ANDing that with whatever DDRE is will keep every bit of DDRE the same, except for the 2nd to last bit (the one we want for PE1) which it will force to 0. If you don’t understand that explanation go [play around with binary (LINK)](https://www.codecademy.com/courses/python-intermediate-en-KE1UJ/0/1 "Click the link to learn some binary (in python)!"). 
 
-##### Read that Pin
+#### Read that Pin
 Now comes the hard part. Actually, this is still really easy. To read the voltage at the input pin, we have to look at a new register. The Port E Input Pins Address (or PINE). If 5V is applied to pin 10 (PE1), then PINE will have a bit flipped to a 1 where PE1 is. 0V the bit will be a 0. So you just check to see if PINE is greater than 0.
 
 If you believed that then you should [stop believing everything I say](https://www.codecademy.com/courses/python-intermediate-en-KE1UJ/0/1. Instead you will have to check to see if the correct bit of PINE is set to 1. "You might wonder why I would write a tutorial where I would lie, and there is really no good answer.")
@@ -39,10 +39,10 @@ if (PINE & _BV(PE1) ) {
 
 If this doesn’t make sense, once again: play with binary.
 
-### Analog Discovery? 
+## Analog Discovery? 
 See how easy digital is? Analog stuff is just as easy. I lied again. It is a bit more complicated, and for good reason. Before jumping into code, let’s go through what the hell we have to do first.
 
-##### Analog to Digital
+#### Analog to Digital
 Digital is easily defined by 0V or 5V, a 1 or a 0, on… and off. Easy stuff. Literally two things you have to remember. BI-nary. Analog is everything else. 0V to 5V inclusive in our case, because anything more and our [ATmegas will fry](NULL "You don't want that unless you are Powertrain from 2014-2015).
 
 It is easy then to convert Analog to digital, we can just convert the volts into a number. 0V would be a 0, 0.000...0001V would be a 1, 0.000...0002V is a 2 and so on. 
@@ -51,7 +51,7 @@ In order to solve this [issue](NULL "Right? You see the issue? Please say you se
 
 So now we have subdivision down, what else?
 
-##### Time. It is always Time. 
+#### Time. It is always Time. 
 This issue isn’t actually analog specific. Digital stuff relies on time too. Actually, everything relies on time. 
 
 As we learned before, our ATmega’s CPU runs at 1Mhz which is pretty darn fast. In order to use the ADC, we have to tell it at what time rate to sample the voltage on the pin in order to get a reading. I recommend reading the [wikipedia article (LINK)](https://en.wikipedia.org/wiki/Analog-to-digital_converter "Link to ADC wiki") to understand this because it is really solid.  
@@ -65,7 +65,7 @@ ADCSRA |= _BV(ADEN) | _BV(ADPS2) | _BV(ADPS1) | _BV(ADPS0);
 
 We know by now what most of this code does, it sets different bits of the [ADCSRA register](NULL " It is time to pull up that handy-dandy reference manual."). ADEN will turn the ADC on, and ADPS[0-2] will tell the ADC how fast to run. Check the datasheet for [exact specifications](NULL "Ctrl-F is for cheaters.").
 
-##### Who Do I Reference? Are You My Relative!?
+#### Who Do I Reference? Are You My Relative!?
 No, I am not talking about when you write a research paper. This is for the ADC. Voltage is relative, [as is everything in life](NULL "Is this 3 d33p 5 u? Oh God, what have I become…"). The ADC will translate voltage into numbers. Where with digital inputs everything is reference to the ATmega’s ground, the ADC can be set to reference an external source. 
 
 For now, we will just keep that idea in the back of our head, and set the ADC to just reference internal ground. 
@@ -76,7 +76,7 @@ ADCSRB |= _BV(AREFEN);
 
 Starting to feel comfortable with the bit shifting stuff?
 
-##### Are We Done Yet?
+#### Are We Done Yet?
 Actually, yes. Mostly.
 
 Now we just have to read the ADC. This is actually fairly easy. First we tell the ADC to begin conversion:
@@ -103,11 +103,11 @@ We have to use a 16 bit integer to hold the ADC value, because a 8 bit integer t
 
 And that is it, we now have a reading of the voltage!
 
-### Digital To Analog. Wait, what?
+## Digital To Analog. Wait, what?
 Analog to digital now makes sense, but there is no possible way you can go from digital to analog. That just doesn’t make any sense. Well you are right. In a sense. 
 
 Once again, it boils down to:
-##### [Time.](NULL "<3 Time. And Thyme. I do enjoy Thyme. But my favorite spice is ginger. Or is it cinnamon? Actual I do like mint…")
+#### [Time.](NULL "<3 Time. And Thyme. I do enjoy Thyme. But my favorite spice is ginger. Or is it cinnamon? Actual I do like mint…")
 1s and 0s. That is what you have to work with. C’mon, you’re in ISIM for God’s sake! You are a genius at this. Oh now wait, all you know is filters. And op-amps. Goddamn op-amps… 
 
 Wait a second, filters are cool, they can take a really spiky signal and smooth it out. You can get rid of high frequency noise and just get the signal you want! What if we use that high frequency noise to MAKE the signal?
