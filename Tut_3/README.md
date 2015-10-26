@@ -87,9 +87,9 @@ But this still leaves questions, what does `_BV(PE1)` do? Well you can check the
 We start with our DDRE register, which is the Port E data register. It has all it’s bits as 0, which means that all pins related to this register are not going to be used for output. However, we want to set pin 10, or PE1 (Port E 1), to be used for output. 
 
 |DDRE | | | | | | | | | 
-|-----|-|-|-|-|-|-   |-   |-   |
+| --- |-|-|-|-|-|-   |-   |-   |
 |Bit  |7|6|5|4|3|2   |1   |0   |
-|     |-|-|-|-|-|DDE2|DDE1|DDE0|
+|     | | | | | |DDE2|DDE1|DDE0|
 |Value|0|0|0|0|0|0   |0   |0   |
 
 The first 5 bits are not used in the DDRE register, which is cool. All of the bits are set to 0 at first as we said before. Now, we want PE1 to have its output flag set so that we can use it for lighting up the LED. We know DDRE is correlated directly with the Port E data register… 
