@@ -13,7 +13,7 @@ The first, and easiest, input that you can do is just digital. 5V will be a 1, a
 The other option is to have a range of voltages, everything from 0V to 5V.  This will utilize the ADC (a built in analog-to-digital converter), but there are some tricks to this.
 
 ### We Live in a Digital World
-Like seriously everything we own is digital… Also this part will not go through everything you need to make a [compilable file]("I will still put some source code at the end of something that can be compiled, but you should really be able to do it yourself!")
+Like seriously everything we own is digital… Also this part will not go through everything you need to make a [compilable file](none "I will still put some source code at the end of something that can be compiled, but you should really be able to do it yourself!")
 
 ##### Set a Pin to Digital Input
 This is actually really easy. Let’s use pin 10, or PE1. For digital output, we had to set the correct bit of DDRE to a 1. For input, we set it to 0, or, because they default to 0, we leave it as is. 
