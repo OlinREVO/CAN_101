@@ -43,7 +43,7 @@ If this doesn’t make sense, once again: play with binary.
 See how easy digital is? Analog stuff is just as easy. I lied again. It is a bit more complicated, and for good reason. Before jumping into code, let’s go through what the hell we have to do first.
 
 #### Analog to Digital
-Digital is easily defined by 0V or 5V, a 1 or a 0, on… and off. Easy stuff. Literally two things you have to remember. BI-nary. Analog is everything else. 0V to 5V inclusive in our case, because anything more and our [ATmegas will fry](NULL "You don't want that unless you are Powertrain from 2014-2015).
+Digital is easily defined by 0V or 5V, a 1 or a 0, on… and off. Easy stuff. Literally two things you have to remember. BI-nary. Analog is everything else. 0V to 5V inclusive in our case, because anything more and our [ATmegas will fry](NULL "You don't want that unless you are Powertrain from 2014-2015").
 
 It is easy then to convert Analog to digital, we can just convert the volts into a number. 0V would be a 0, 0.000...0001V would be a 1, 0.000...0002V is a 2 and so on. 
 
