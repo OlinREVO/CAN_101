@@ -108,41 +108,54 @@ Analog to digital now makes sense, but there is no possible way you can go from 
 
 Once again, it boils down to:
 #### [Time.](NULL "<3 Time. And Thyme. I do enjoy Thyme. But my favorite spice is ginger. Or is it cinnamon? Actual I do like mint…")
-1s and 0s. That is what you have to work with. C’mon, you’re in ISIM for [~~God’s~~](NULL "Not sure if this offends people...") sake! You are a genius at this. Oh now wait, all you know is filters. And op-amps. Damn op-amps… 
+1s and 0s. That is what you have to work with. C’mon, you’re in ISIM for [~~God’s~~](NULL "Not sure if this offends people...") sake! You are a genius at this. Oh now wait, all you know is filters. And op-amps. ~~Goddamn~~ [op-amps…](NULL "This was the case in my year, not sure if this is still true. I hate filters.")
 
 Wait a second, filters are cool, they can take a really spiky signal and smooth it out. You can get rid of high frequency noise and just get the signal you want! What if we use that high frequency noise to MAKE the signal?
 
-This is the idea behind Pulse Width Modulation (PWM). You pulse a bunch of 1s (5V) and 0s (0V) at the digital port such that the “average” is the voltage you want. It is slightly more complicated in practice, and I recommend you google it if you want to know more. Actually, definitely check the wiki article. https://en.wikipedia.org/wiki/Pulse-width_modulation 
+This is the [idea](NULL "Not really, but essentially") behind Pulse Width Modulation (PWM). You pulse a bunch of 1s (5V) and 0s (0V) at the digital port such that the “average” is the voltage you want. It is slightly more complicated in practice,~~and I recommend you google it if you want to know more.~~ Actually, definitely check the [wiki article (LINK)](https://en.wikipedia.org/wiki/Pulse-width_modulation "I supply the link. You read.")
 
-Yeah the ATmega Can Do it.
+#### Yeah the ATmega Can Do it.
 These things are pretty neat. Can your computer do PWM? Well, probably. Whatever. 
 
-First we have to set the prescaling on the PWM clock. This is fancy mumbo-jumbo for how fast we want the PWM frequency to be.  For right now, we want it to be as fast as possible:
+First we have to set the prescaling on the PWM clock. This is fancy mumbo-jumbo for how fast we want the PWM frequency to be.  For right now, we want it to be [as fast as possible](NULL "Pull up that documentation!"):
 
+```
 TCCR0B |= _BV(CS00);
+```
 
-Now we just have to say what pin we want to use as the PWM. Not every pin can do PWMing, so you will have to check the datasheet for specifications. Our lovely pin 10 can do PWM, so let’s just use that one! However, since we are using it’s PWM functionality we have to call it by it’s other name: COM0B1
+Now we just have to say what pin we want to use as the PWM. Not every pin can do PWMing, so you will have to check the datasheet for specifications. Our lovely pin 10 *can* do PWM, so let’s just use that one! However, since we are using it’s PWM functionality we have to call it by it’s other name: [COM0B1](NULL "For readability!")
 
+```
 TCCR0A |= _BV(COM0B1) | _BV(WGM00);
+```
 
 Setting the WGM00 bit, which determines the “mode” of operation. Check the datasheet for more information, but this will set it to be phase-correct PWM.
 
-It also appears to be good practice to reset the other PWM pin for this register, although I am not totally sure why. We can do that with:
+It also appears to be good practice to reset the other PWM pin for this register, although [I am not totally sure why](NULL "I am still learning this as well!"). We can do that with:
 
+```
 TCCR0A &= ~_BV(COM0B0);
+```
 
-You know what this does by now! Lastly, we still need to tell PE1/pin 10/COMOB1 to be output. For this, we will once again use the familiar PE1.
+You know what this does by now! Lastly, we still need to tell PE1/pin 10/COMOB1 to be output. For this, we will once again use the familiar [PE1](NULL "For readability? No. For standards.").
 
+```
 DDRE |= _BV(PE1);
+```
 
-Now Just Write To The Pin
+#### Now Just Write To The Pin
 You can do this! Well, it is a bit different now.
+
+```
 OCR0B = (uint8_t) (reading >> 2);
+```
 
-The OCR0B register is only 8 bits, so we need to cast our 16 bit reading as 8 bits. We bit shift right by 2 to keep the most significant bits (we are using 16 bits to store a 10 bit number).  
+The OCR0B register is only 8 bits, so we need to cast our 16 bit reading as 8 bits. We bit shift right by 2 to keep the most significant bits [(we are using 16 bits to store a 10 bit number)](NULL "This starts to get a bit tricky. We have a 10 bit number stored in a 16 bit box. We want to put that into an 8 bit box. So we can get rid of the least significant bits --the last two that store a 1 and a 2-- which will make our reading off by +3 or -3, but it will allow us to put 10 bits into 8!").  
 
-See? Easy.
+See? [Easy](NULL "Right? RIGHT?!").
 
-Putting It All Together
-You have a lot more functionality now, and in fact basically all the functionality the ATmega can do. Digital input, output and analog input and output. What more is there? Well, there are a few more built in features that utilize these two features to build up other features that we can use, but we will get to that later. For now, be glad you can do stuff.  Here are some examples, try to follow along or make your own! (They may be on the next page)
+## Putting It All Together
+You have a lot more functionality now, and in fact basically all the functionality the ATmega can do. Digital input, output and analog input and output. What more is there? Well, there are a few more built in features that utilize these two features to build up other features that we can use, but we will get to that later. For now, be glad you can do stuff. 
+
+You can find some examples in the examples/ folder for this tutorial. Check them out, modify them, break them, live life!
 
