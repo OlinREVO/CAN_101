@@ -14,6 +14,7 @@ https://github.com/OlinREVO
 ### Clone and Run the Setup script with all of the tools necessary
 (Debian Only)
 Run the following command in order to clone the config repo
+
 *NOTE: This code can also be found in the AVR-Config folder*
 
 ```
