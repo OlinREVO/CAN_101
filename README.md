@@ -6,6 +6,8 @@ This will cover not only how to program ATmegas, but also all the things you nee
 
 Clone this repo to get example code for the tutorials! Follow along! Also make bug requests for typos and whatnot, or make pull-requests if you are [super nice](NULL "<3")!
 
+Some useful files are also in the main folder, such as the ATmega datasheet and the pinouts in a [readable form](NULL "The datasheet has a terrible format for the pinouts, and it is really hard to read. I painstakingly transcribed them into a text document.")
+
 ## FAQ
 #### I Don't know C, What do I do?
 I will work on writing a quick learn-C tutorial thingy. But it won't go too in-depth. If you really want to learn, there are a ton of great resources out there!
