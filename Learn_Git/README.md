@@ -31,6 +31,6 @@ The easiest, and best, way to prevent merge conflicts from happening is to use t
 git branch Fix_For_File_C
 ```
 
-This command will copy the current "branch" of the project you are in when you call it and name it Fix_For_File_C. You can then switch to this new branch using the [`git checkout Fix_For_File_C` command](null "For pro users you can do both commands in one by just doing `git checkout -b Fix_For_File_C`")
+This command will copy the current "branch" of the project you are in when you call it and name it Fix_For_File_C. You can then switch to this new branch using the `git checkout Fix_For_File_C` [command](null "For pro users you can do both commands in one by just doing `git checkout -b Fix_For_File_C`")
 
 
