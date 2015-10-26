@@ -8,6 +8,34 @@ Clone this repo to get example code for the tutorials! Follow along! Also make b
 
 Some useful files are also in the main folder, such as the ATmega datasheet and the pinouts in a [readable form](NULL "The datasheet has a terrible format for the pinouts, and it is really hard to read. I painstakingly transcribed them into a text document.")
 
+## Tutorials
+#### Tut 1 - Setup
+Set up your system and get the necessary tools to program ATmegas!
+
+#### Tut 2 - Wiring and Flashing
+Learn to wire up and flash code onto an ATmega. 
+
+#### Tut 3 - Blinky: How Do You Do?
+Learn what "blinky" does line by line.
+
+#### Tut 4 - Inputs & Outputs
+Learn to use digital inputs, analog inputs and analog outputs. From this point on, you can basically do everything with an ATmega.
+
+#### Tut 5 - CAN
+TODO: CAN
+
+#### Tut 6 - Interrupts
+TODO: Interrupts
+
+#### Learn Git
+TODO: A general guide on good git practice.
+
+#### Learn C
+TODO: A general guide on how to program in C.
+
+#### Style-Guide
+TODO: Style guide for our code
+
 ## FAQ
 #### I Don't know C, What do I do?
 I will work on writing a quick learn-C tutorial thingy. But it won't go too in-depth. If you really want to learn, there are a ton of great resources out there!
