@@ -7,6 +7,7 @@ Otherwise, if you want to have a brief overview of how to use git (and more impo
 This is the first and most important rule. Never, ever push to master. There is no reason to EVER push to master, and if you do it [I will be pissed.](null "This may result in you being banned temporarily or some other punishment. Or I might just give you a sad, dissapointed look.") 
 
 > Your recent pull-request doesn't actually work, but you have a quick fix for it and you just need to quickly push to master...
+
 NO! Bad! Make another pull-request. Don't push to master.
 
 If I haven't stressed this enough -- Do. Not. Push. To. Master. Ever.
