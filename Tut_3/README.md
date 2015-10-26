@@ -24,6 +24,7 @@ int main (void) {
 ### Line by Line
 We will now (not) go through every single line of code in order to understand what it actually does.
 
+---
 ```
 #define F_CPU (1000000L)
 ```
@@ -41,6 +42,7 @@ Naively you may think that this line of code sets the frequency of the CPU on th
 
 
 
+---
 ```
 #include <avr/io.h>
 ```
@@ -49,6 +51,7 @@ This includes functions for the AVR input and output operations. For our uses, i
 
 
 
+---
 ```
 #include <util/delay.h>
 ```
@@ -57,6 +60,7 @@ This allows us to use the _delay_ms() function. The util/delay.h library calls o
 
 
 
+---
 ```
 int main (void) {
 ```
@@ -67,6 +71,7 @@ If you do not know what I mean by this, hit the google’s and get learning.
 
 
 
+---
 ```
 DDRE |= _BV(PE1);
 ```
