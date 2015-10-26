@@ -18,20 +18,24 @@ Like seriously everything we own is digital… Also this part will not go throug
 ##### Set a Pin to Digital Input
 This is actually really easy. Let’s use pin 10, or PE1. For digital output, we had to set the correct bit of DDRE to a 1. For input, we set it to 0, or, because they default to 0, we leave it as is. 
 
-However, that is shitty code practice, and if you assume that the bit is set to 0 in your code I will find you and I will tell you that you did something stupid. Instead of assuming like an asshole programmer, you can set it nicely like so:
+However, that is shitty code practice, and if you assume that the bit is set to 0 in your code I will find you and I will tell you that you did something [stupid](https://github.com/OlinREVO/CAN_101/tree/master/Tut_4 "You should feel bad"). Instead of assuming like an asshole programmer, you can set it nicely like so:
 
+```
 DDRE &= ~( _BV(PE1) );
+```
 
-This ANDs the bits of DDRE with the inverse of the bits set by PE1. “What?” you may ask. Essentially, _BV(PE1) will create 00000010 and the inverse of that (~) is going to be 11111101. ANDing that with whatever DDRE is will keep every bit of DDRE the same, except for the 2nd to last bit (the one we want for PE1) which it will force to 0. If you don’t understand that explanation go play around with binary. 
+This ANDs the bits of DDRE with the inverse of the bits set by PE1. “What?” you may ask. Essentially, `_BV(PE1)` will create 00000010 and the inverse of that (~) is going to be 11111101. ANDing that with whatever DDRE is will keep every bit of DDRE the same, except for the 2nd to last bit (the one we want for PE1) which it will force to 0. If you don’t understand that explanation go [play around with binary (LINK)](https://www.codecademy.com/courses/python-intermediate-en-KE1UJ/0/1 "Click the link to learn some binary (in python)!"). 
 
-Read that Pin
+##### Read that Pin
 Now comes the hard part. Actually, this is still really easy. To read the voltage at the input pin, we have to look at a new register. The Port E Input Pins Address (or PINE). If 5V is applied to pin 10 (PE1), then PINE will have a bit flipped to a 1 where PE1 is. 0V the bit will be a 0. So you just check to see if PINE is greater than 0.
 
-If you believed that then you should stop believing everything I say. Instead you will have to check to see if the correct bit of PINE is set to 1. 
+If you believed that then you should [stop believing everything I say](https://www.codecademy.com/courses/python-intermediate-en-KE1UJ/0/1. Instead you will have to check to see if the correct bit of PINE is set to 1. "You might woonder why I would write a tutorial where I would lie, and there is really no good answer.")
 
+```
 if (PINE & _BV(PE1) ) {
 	// Do stuff
 }
+```
 
 If this doesn’t make sense, once again: play with binary.
 
