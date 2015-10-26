@@ -24,6 +24,7 @@ int main (void) {
 ### Line by Line
 We will now (not) go through every single line of code in order to understand what it actually does.
 
+1. 
 ```
 #define F_CPU (1000000L)
 ```
