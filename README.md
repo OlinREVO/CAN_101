@@ -51,5 +51,8 @@ These are [hover-texts!](NULL "Hi I am hovertext") A [jank](null "So jank") way 
 
 But seriously, don't click unless it says [(LINK)](https://www.youtube.com/watch?v=dQw4w9WgXcQ "See, you can click now!") because otherwise it will send you to a non-existent page or some [random page](http://www.findtheinvisiblecow.com/ "cow? Cow? COW! COW! COW COW COW!!!!") that I find funny.
 
+#### Should I read the hover-texts?
+I generally tried to keep all pertinent information in regular text and mostly extra information is [hovertext.](null "Like the fact that I used to own a rabbit.") Some of the extra information is useful and some of it is just me [goofing off](null "I am a serious person and I demand respect!"). I recommend you read all of them mostly because they help break up the monotony of [reading technical tutorials.](null "They are like novels that don't have a plot and kinda just spend the entire book describing the room the main character is sitting in at a great depth.")
+
 #### I am offended by your hover-texts
 This is not a question. 
