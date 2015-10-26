@@ -1,7 +1,8 @@
 # CAN 101
 Tutorials for people new to REVO programming.
 
-This will cover not only how to program ATmegas, but also all the things you need to know to be a [good person!](NULL "Well, not really. They will probably make you a worse person") *NOTE: Don't click the link, it is only hovertext (check the FAQ) *
+This will cover not only how to program ATmegas, but also all the things you need to know to be a [good person!](NULL "Well, not really. They will probably make you a worse person") 
+*NOTE: Don't click the link, it is only hovertext (check the FAQ)*
 
 Clone this repo to get most of the 
 
