@@ -54,7 +54,7 @@ So now we have subdivision down, what else?
 ##### Time. It is always Time. 
 This issue isn’t actually analog specific. Digital stuff relies on time too. Actually, everything relies on time. 
 
-As we learned before, our ATmega’s CPU runs at 1Mhz which is pretty darn fast. In order to use the ADC, we have to tell it at what time rate to sample the voltage on the pin in order to get a reading. I recommend reading the wikipedia article to understand this because it is really solid. https://en.wikipedia.org/wiki/Analog-to-digital_converter 
+As we learned before, our ATmega’s CPU runs at 1Mhz which is pretty darn fast. In order to use the ADC, we have to tell it at what time rate to sample the voltage on the pin in order to get a reading. I recommend reading the [wikipedia article (LINK)](https://en.wikipedia.org/wiki/Analog-to-digital_converter "Link to ADC wiki") to understand this because it is really solid.  
 
 To do this, we use this line of code:
 
