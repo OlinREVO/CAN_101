@@ -33,4 +33,28 @@ git branch Fix_For_File_C
 
 This command will copy the current "branch" of the project you are in when you call it and name it Fix_For_File_C. You can then switch to this new branch using the `git checkout Fix_For_File_C` [command](null "For pro users you can do both commands in one by just doing `git checkout -b Fix_For_File_C`")
 
+Now you have your own (local) branch, where you can make any changes you want and you don't have to worry about anyone changing code that you are changing. Local branches are nice because nobody can mess with it; the downside is that no one else can see it, so if your [computer goes down then all your code is gone.](null "This is why we make backups.") The other downside of nobody being able to see it is that nobody can build off of it, which sorta defeats the purpose of [jointly working on code.](null "I prefer Open Source projects where the code is freely available to anyone who is using my computer on my account with my passwords.")
 
+Local branches, and branches in general, have a very explicit purpose. They are there to temporarily hold changes until they are [merged into master.](null "Note how they aren't pushed to master. Don't push to master.") So when you have finished making your changes to the code, and have added or fixed a feature, you are ready to "publish" your branch to the server, which in our case is [Github.](null "Note that Github and git are not the same. Github is a service, and git is software.") To do this, you type the easily remembered command:
+
+```
+git push --set-upstream origin Fix_For_File_C
+```
+
+Or you can just do `git push` and have git tell you the [command to type.](null "Since `git push` is invalid for local branches it will tell you the correct command to publish the branch to the remote) Quickly breaking down what the command does, it pushes the Fix_For_File_C branch to [origin which is the server which is Github in our case.](null "Read the pro git guide if you really want to learn this stuff -- it is super cool!")
+
+#### Code Review
+Now you have your branch published to Github and it can be found in the Repo under the [branch pull-down menu](null "Right above the listing of the files in the Repo"). However it still isn't merged into master, and unless someone [branches off your branch](null "`master` isn't special, and in fact is just a branch. So any branch can have a branch come off of it.) You want your code in the [Master branch, along with the other awesome code](null "But you won't resort to cheating by pushing to master. I will hunt you down if you do."). To do that, you need to initiate a pull-request.
+
+A pull-request isn't actually a git command, and it is a feature that Github has created in order to make code review easier. You can create a pull-request by clicking the weird looking button to the left of the [branch pull-down menu.](null "Or by looking with your eyes at the page. There are a few different places you can initiate a pull-request") It will ask for some details and comments about the pull-request, and you should be as explicit as possible. Anything less than a paragraph and you have not [written enough](null "But don't put in filler text because that just wastes time. Oh god its high school english class all over again...")
+
+Once you have completed that process, you should notice a little `1` next to the `Pull Requests` tab on the right. If you click on this you can see the Pull Requests that are currently being awaited code review. You can look at these and take note of how easily it is to tell what has been changed in the branch and how it will [affect](null "effect?") Master. Do NOT complete your own [Pull Request.](null "That is just a shitty thing to do.")
+
+[Someone](null "Probably me...") will come around, look at your code and complete the pull request if it [looks good.](null "Otherwise they will post passive-aggressive comments on your pull-request asking why you are using TCP/IP when UDP/IP works soooo much better even though they don't realize that nobody cares how fast the messages travel and the messages that do travel it is desired to see them in an ordered manner, which really brings up the issue of why the hell we are sending the data the way we are and the fact that we should really just rethink our shitty code structure for that section which is the part that THEY wrote and not my fucking problem. But I'm not salty or anything.") 
+
+Woohoo! You have done it! You have made it to Master! You are one with the world!
+
+#### Cleanup
+After completely the difficult task of getting your code to master, it is now time to clean up the mess you created on the path. For example, we have a public branch that is no longer being used and you have a local branch whose [name is no longer relevant.](null "Name your branches descriptively!) I don't care about how you organize your [personal computer](null "I prefer to keep my computer filesystem organized like a web... or a pile of files. I think a pile of files is a good description.") but I *do* care about our public branches. 
+
+To delete a branch that has been merged to Master [via a pull-request](null "And no other way.") you simply click the `branches` tab at the top, and then click the delete button. Easy, peezy, [cover-girl.](null "Wait, what?!)
