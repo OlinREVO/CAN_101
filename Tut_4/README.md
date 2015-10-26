@@ -1,6 +1,6 @@
 
 #Blinky With Potentiometer Control
-#(Advanced Blinky)
+(Advanced Blinky)
 
 
 ## The Code
@@ -108,7 +108,7 @@ Analog to digital now makes sense, but there is no possible way you can go from 
 
 Once again, it boils down to:
 #### [Time.](NULL "<3 Time. And Thyme. I do enjoy Thyme. But my favorite spice is ginger. Or is it cinnamon? Actual I do like mint…")
-1s and 0s. That is what you have to work with. C’mon, you’re in ISIM for God’s sake! You are a genius at this. Oh now wait, all you know is filters. And op-amps. Goddamn op-amps… 
+1s and 0s. That is what you have to work with. C’mon, you’re in ISIM for [~~God’s~~](NULL "Not sure if this offends people...") sake! You are a genius at this. Oh now wait, all you know is filters. And op-amps. Damn op-amps… 
 
 Wait a second, filters are cool, they can take a really spiky signal and smooth it out. You can get rid of high frequency noise and just get the signal you want! What if we use that high frequency noise to MAKE the signal?
 
@@ -145,81 +145,4 @@ See? Easy.
 
 Putting It All Together
 You have a lot more functionality now, and in fact basically all the functionality the ATmega can do. Digital input, output and analog input and output. What more is there? Well, there are a few more built in features that utilize these two features to build up other features that we can use, but we will get to that later. For now, be glad you can do stuff.  Here are some examples, try to follow along or make your own! (They may be on the next page)
-
-
-
-
-
-// Digital input to digital output
-// Try modifying this to toggle the digital output every time
-// you click the button
-
-#define F_CPU (1000000L)
-#include <avr/io.h>
-
-int main (void) {
-    // Set PE1 to output (pin 10)
-    DDRE |= _BV(PE1);
-
-    // Set PE2 to input (pin 11)
-    DDRE &= ~( _BV(PE2); 
-
-    while(1) {
-        if ( PINE & _BV(PE1)){
-            // Turn on
-            PORTE |= _BV(PE1);
-        }else{
-            // Turn off
-            PORTE &= ~_BV(PE1);
-        }
-    }
-}
-
-
-
-// ADC input and PWM output
-// Try modifying this to only turn on the LED after a threshold.
-// Or do something more interesting. 
-
-#define F_CPU (1000000L)
-#include <avr/io.h>
-
-int main (void) {
-    //Enable ADC, set prescalar to 128 (slow down ADC clock)
-    ADCSRA |= _BV(ADEN) | _BV(ADPS2) | _BV(ADPS1) | _BV(ADPS0);
-
-    //Enable internal reference voltage
-    ADCSRB &= _BV(AREFEN);
-
-    //Set internal reference voltage as AVcc
-    ADMUX |= _BV(REFS0);
-    //Reads by default from ADC0
-
-    //No prescaling on PWM clock
-    TCCR0B |= _BV(CS00);
-
-    //Set up phase-correct PWM on OC0B
-    TCCR0A |= _BV(COM0B1) | _BV(WGM00);
-
-    //Reset the other PWM pin
-    TCCR0A &= ~_BV(COM0B0);
-
-    //set OC0B (PE1, pin 10) as output.
-    DDRE |= _BV(PE1);
-
-    while(1) {
-        //Read from ADC
-        ADCSRA |=  _BV(ADSC);
-        //Wait for ADC reading
-        while(bit_is_set(ADCSRA, ADSC));
-        uint16_t reading = ADC;
-
-        OCR0B = (uint8_t) (reading >> 2);
-    }
-}
-
-
-
-
-
 
