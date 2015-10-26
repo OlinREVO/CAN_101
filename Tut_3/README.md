@@ -101,7 +101,7 @@ So, if you make the connection, we want to set the value of DDE1 to 1. In order 
 			    OR
    VALUE:        0000010
 			    =
-New DDRE:  	 0000010
+New DDRE:  	     0000010
 ```
 
 This will give us DDRE with the correct bit values if we OR it with the VALUE. We can get that value in a number of ways, either by writing the raw hex `(VALUE = 0x02)` or with the actual binary `0b00000010`. We can be clever, and do a bit shift `(VALUE = 1 << 1)`.  All do the same thing, they put a 1 where we need it in the byte. 
@@ -164,6 +164,5 @@ I feel like this line is pretty self-explanatory. The one thing I will add here 
 
 Our ATmegas run at 1Mhz. This is necessary information for the compiler to know, so that it can set up how many clock cycles are needed to pass through `_delay_ms(500)`. If we put the wrong value for F_CPU, then it would check the wrong number of clock cycles and the delay would not delay for the correct amount of time. 
 
----
-Phew! 
+### Phew! 
 That was a lot of information, especially for like 9 lines of code. Now to make things more complicated… 
