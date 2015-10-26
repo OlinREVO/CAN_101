@@ -70,26 +70,26 @@ SCK (28)
 This is the SCI Clock. The ATmega and your computer think at different speeds. Imagine you are speaking to dog; you can’t say things at the same speed as you would to yourself. Instead you have to slow down so that your dog can understand you. It is basically the same thing here. This just syncs the clocks of your computer to the clock of the ATmega, so that valid communication can take place.
 
 ### Into the Programmer They Go!
-#### Plug the AVRdude into your computer (USB -> USB port)
+##### Plug the AVRdude into your computer (USB -> USB port)
 The AVR programmer should light up with a red light. Notice that the other side has six pinouts… I wonder what those mean...
 
-#### Plug the pins in the pins with corresponding pins
+##### Plug the pins in the pins with corresponding pins
 If you were lucky and have one of the ATmegas with small pins on top, this is super easy. Otherwise, do whatever janky thing works to get these connections in the right place.
 
 If the AVR programmer’s light does not turn green, then you wired it upside down. Flip the AVR programmer to fix the problem. If that doesn’t work, you screwed up or the ATmega is broken.
 
 ### You Can Now Program the ATmega!
-#### Get the Code
+##### Get the Code
 You will be able to find code in the blinky/ folder in Tut_2. Clone this repo if you haven't already to get the example code.
 
-#### Compile and Flash the ATmega
+##### Compile and Flash the ATmega
 Go into the cloned folder and run:
 sudo make FILE=blinky flash
 
 Check the output log, if there are errors see what they mean and try to debug them yourself. Check your connections. 
 
-#### Plug an LED and resistor in series to ground into PE1 (pin 10)
+##### Plug an LED and resistor in series to ground into PE1 (pin 10)
 Watch the LED blink! How fast is it blinking? Can you change the frequency at which it blinks?
 
-#### Read the code and learn what it is doing.
+##### Read the code and learn what it is doing.
 
