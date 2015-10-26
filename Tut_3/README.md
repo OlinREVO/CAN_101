@@ -89,56 +89,81 @@ We start with our DDRE register, which is the Port E data register. It has all i
 |DDRE | | | | | | | | | 
 | --------- | --------- | --- |---|---|---|---   |---   |---   |
 |Bit  |7|6|5|4|3|2   |1   |0   |
-|     | | | | | |DDE2|DDE1|DDE0|
+|     |-|-|-|-|-|DDE2|DDE1|DDE0|
 |Value|0|0|0|0|0|0   |0   |0   |
 
 The first 5 bits are not used in the DDRE register, which is cool. All of the bits are set to 0 at first as we said before. Now, we want PE1 to have its output flag set so that we can use it for lighting up the LED. We know DDRE is correlated directly with the Port E data register… 
 
 So, if you make the connection, we want to set the value of DDE1 to 1. In order to do this, we will have to use some bit math. 
 
+```
    DDRE :        0000000
 			    OR
    VALUE:        0000010
 			    =
 New DDRE:  	 0000010
+```
 
-This will give us DDRE with the correct bit values if we OR it with the VALUE. We can get that value in a number of ways, either by writing the raw hex (VALUE = 0x02) or with the actual binary 0b00000010. We can be clever, and do a bit shift (VALUE = 1 << 1).  All do the same thing, they put a 1 where we need it in the byte. 
+This will give us DDRE with the correct bit values if we OR it with the VALUE. We can get that value in a number of ways, either by writing the raw hex `(VALUE = 0x02)` or with the actual binary `0b00000010`. We can be clever, and do a bit shift `(VALUE = 1 << 1)`.  All do the same thing, they put a 1 where we need it in the byte. 
 
 Let’s look at the last method a bit more closely:
+
+```
 VALUE = 1 << 1
+```
 
 Hm… What if we want to set, say pin 11 (PE2)  to be the output pin instead. That would correlate to DDE2. So in order to get the bit in the right place we would do:
+
+```
 VALUE = 1 << 2
+```
 
 So it seems that if only we could get the second number to correlate more directly to PE1 or PE2 so that the code is easier to read… Well actually PE1 and PE2 are macros that do just that! So now we can do:
 
-VALUE = 1 << PE1       or        VALUE = 1 << PE2
+```
+VALUE = 1 << PE1       
+      or
+VALUE = 1 << PE2
+```
 
-Sweet! Our code is getting more readable. I was trying to think of a clever way of describing what _BV() does, but I couldn’t think of any. _BV is just a macro that does the bit shifting, literally. 
+Sweet! Our code is getting more readable. I was trying to think of a clever way of describing what `_BV()` does, but I couldn’t think of any. `_BV()` is just a macro that does the bit shifting, literally. 
 
+```
 #define _BV( bit )   (1 << bit)
+```
 
-is how _BV() is defined. All it does is make the code more readable.
+is how `_BV()` is defined. All it does is make the code more readable.
 
 In summary: 
+
+```
 DDRE |= _BV(PE1);
+```
 
 This ORs the bit-shifted value PE1 correlates to with DDRE in order to set that value in the register. 
 
-
+---
+```
 while(1) {
+```
 This sets up an infinite while loop so that the ATmega never completes whatever it is doing in the loop (blinking the LED). 
 
 Personally I prefer for(;;) because it makes it easier to convert an infinite loop into a non-infinite loop very easily if you ever need to down the road, but they are identical. 
 
+---
+```
 PORTE ^= _BV(PE1);
-Look at that _BV()! Making our code so much more readable. This XORs the bit for PE1. You know what XORing does? It toggles a bit. Like blinking.
+```
+Look at that `_BV()`! Making our code so much more readable. This XORs the bit for PE1. You know what XORing does? It toggles a bit. Like blinking.
 
+---
+```
 _delay_ms(500);
+```
 I feel like this line is pretty self-explanatory. The one thing I will add here is that the F_CPU that we defined way earlier is INCREDIBLY important here. This line says that we want our LED to blink every second (off for half a second, on for half a second). 
 
-Our ATmegas run at 1Mhz. This is necessary information for the compiler to know, so that it can set up how many clock cycles are needed to pass through _delay_ms(500) . If we put the wrong value for F_CPU, then it would check the wrong number of clock cycles and the delay would not delay for the correct amount of time. 
+Our ATmegas run at 1Mhz. This is necessary information for the compiler to know, so that it can set up how many clock cycles are needed to pass through `_delay_ms(500)`. If we put the wrong value for F_CPU, then it would check the wrong number of clock cycles and the delay would not delay for the correct amount of time. 
 
-
+---
 Phew! 
 That was a lot of information, especially for like 9 lines of code. Now to make things more complicated… 
