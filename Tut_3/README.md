@@ -126,7 +126,7 @@ VALUE = 1 << PE1
 VALUE = 1 << PE2
 ```
 
-Sweet! Our code is getting more readable. I was trying to think of a clever way of describing what `_BV()` does, but I couldn’t think of any. `_BV()` is just a macro that does the bit shifting, literally. 
+Sweet! Our code is getting more readable. I was trying to think of a clever way of describing what `_BV()` does, but I couldn’t think of any. `_BV()` is just a macro that does the bit shifting, literally. It stands for Bit Value, or the Bit Value of PE1 (or some other pin) in relation to that register.
 
 ```
 #define _BV( bit )   (1 << bit)
