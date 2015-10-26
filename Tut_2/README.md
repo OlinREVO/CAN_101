@@ -5,7 +5,7 @@
 The ATmega is a microcontroller. A microcontroller is a CPU, RAM, ROM and other things (in this case IO pins, ADC and some other fanciness) all bundled into one small chip. You may have worked with one before using the Arduino bootloader. The programming we will be doing is not going to be anything like that.
 
 ### The Pin Outs
-An image of the pinouts is shown below. This same image can be found in the ATmega documentation. Do not fret, we will begin to understand what these pinouts mean at a slow pace.
+A list of the pinouts can be found in pinouts.txt which has all of the pin numbers on the left, and the related values on the right. A similar diagram can be found in the ATmega datasheet.
 
 ### The Most Basic Configuration
 Not all of the pins need to be wired in order to utilize the ATmega. In fact, only 5 pins are necessary in order to use the ATmega (well, technically 3 pins).
@@ -80,8 +80,7 @@ If the AVR programmer’s light does not turn green, then you wired it upside do
 
 ### You Can Now Program the ATmega!
 #### Get the Code
-By now you should know how to clone a github repo on your own, so I will just give you the link to the repo. 
-https://github.com/OlinREVO/Blinky
+You will be able to find code in the blinky/ folder in Tut_2. Clone this repo if you haven't already to get the example code.
 
 #### Compile and Flash the ATmega
 Go into the cloned folder and run:
