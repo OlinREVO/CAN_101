@@ -81,26 +81,33 @@ Actually, yes. Mostly.
 
 Now we just have to read the ADC. This is actually fairly easy. First we tell the ADC to begin conversion:
 
+```
 ADCSRA |= _BV(ADSC);  
+```
 
 If you look through the datasheet under the ADCSRA register section, it says that you set the ADSC bit when you want a conversion, and then the bit will be automatically reset (set to 0) when the conversion is complete. Since the ADC is not instantaneous, let’s wait for it.
 
+```
 while(bit_is_set(ADCSRA, ADSC));
+```
 
-As you can probably tell, bit_is_set() will check to see if the bit… is… set? Yes. We could also just do some binary logic with &s and whatnot, but this function makes the code more readable.  Then we just read the ADC when this while loop exits:
+As you can probably tell, bit_is_set() will check to see if the bit… is… set? Yes. We could also just do some binary logic with &s and whatnot, but this function makes the code more [readable](NULL " We want readable code.").  Then we just read the ADC when this while loop exits:
 
+```
 uint16_t reading = ADC;
+```
 
 We have to use a 16 bit integer to hold the ADC value, because a 8 bit integer type can’t hold it (remember the ADC we have will by default output 10 bits). 
-(Ideally uint16_t reading is declared beforehand, although the compiler will optimize this out and it is more readable)
+
+(Ideally `uint16_t reading` is declared beforehand, although the [compiler will optimize this out and it is more readable](NULL "Well shit… More readable code is more shitty looking? Sometimes that is the case, but learn your compilers! Don’t code shittily and expect your compiler to make it optimized.")
 
 And that is it, we now have a reading of the voltage!
 
-Digital To Analog. Wait, what?
+### Digital To Analog. Wait, what?
 Analog to digital now makes sense, but there is no possible way you can go from digital to analog. That just doesn’t make any sense. Well you are right. In a sense. 
 
 Once again, it boils down to:
-Time.
+##### [Time.](NULL "<3 Time. And Thyme. I do enjoy Thyme. But my favorite spice is ginger. Or is it cinnamon? Actual I do like mint…")
 1s and 0s. That is what you have to work with. C’mon, you’re in ISIM for God’s sake! You are a genius at this. Oh now wait, all you know is filters. And op-amps. Goddamn op-amps… 
 
 Wait a second, filters are cool, they can take a really spiky signal and smooth it out. You can get rid of high frequency noise and just get the signal you want! What if we use that high frequency noise to MAKE the signal?
