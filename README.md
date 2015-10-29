@@ -28,11 +28,12 @@ A general overview of how to use Git and how we are using git for our project. R
 The general code style that we will use. Also includes some comments about commenting your code. 
 
 ## Soon to come [Tutorials](null "Maybe")
-#### Tut 5 - CAN
-CAN and how to use it on an ATmega, and how to use our API. 
 
-#### Tut 6 - Interrupts
+#### Tut 5 - Interrupts
 Interrupts on an ATmega. You might think you know it all, but you don't! Learn to program like the pros. 
+
+#### Tut 6 - CAN
+CAN and how to use it on an ATmega, and how to use our API. 
 
 #### Learn C
 A general guide on how to program in C.

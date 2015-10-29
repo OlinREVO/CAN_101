@@ -1,29 +1,155 @@
-# CAN
-This tutorial will cover what CAN is, how our ATmega's utilize CAN and how to use our CAN api to make your Nodes work with our CAN network.
+# Interrupts: Don't Interrupt Me Unless I Say So
 
-This document will also serve as partial documentation of our CAN API, with more detailed documentation in the `CAN_2015-2016` repo.
+You might be thinking that you are an ATmega pro by this point. Inputs, outputs, analog, digital -- you got this.
 
-### What is CAN?
-Most simply CAN is a method of networking an arbitrary system with many different devices. It allows for any device to talk to any other device quickly, easily and most importantly, reliably. It can also do this using only two wires. 
+But what if you want to keep track of 3 digital inputs and 1 analog input. Naively you might think to loop through all of the checks of inputs, and if one triggers do something otherwise go onto to check the next one. This method works[+](null "If you implement it properly, of course"), for the most part. Of course the implementation looks ugly, and what if one of the buttons goes off while you are processing a different button press?[+](null "Although the ATmega CPU goes at 1Mhz it still takes time to process things.")
 
-[CAN is a way of life.](null "At this point you should consider turning away and learning CAN on your own. The goofiness will only increase 10x") Well, a way of life in terms of the embedded systems world. You see, CAN is not a program, software or programming language -- it is just a [protocol](null "Invented at Bosch in the 1980s, so it is relatively new in the grand scheme of things."). It says that there are two wires, CAN-Low and CAN-High, that span across many nodes -- called the CAN bus -- and when they have their voltages *pulled together* it counts as a 1, and when the voltages are *pulled apart* it is a 0. What the sequence of 1s and 0s say is also [specified in the protocol.](null "Thankfully, I don't know what we would do otherwise...") All of this [can](null "Hah! Get it? CAN?") be seen in the following diagram pulled shamelessly from Wikipedia:
+Even worse than that, what if one of the buttons is an *emergency* button -- and if you don't catch it the driver could die.[+](null "No drivers died while writing this tutorial. Also, do not kill our driver -- that is Rule #1") That might be a bit of an exageration, but you don't want to miss any inputs. And when your Node is dealing with CAN calls, button presses and digital outputs... things get messy.[+](null "Especially if one of those operations requires a delay, like lighting an LED up for 1 second")
 
-![CAN-bus.png](https://raw.githubusercontent.com/OlinREVO/CAN_101/master/Tut_5/CAN-bus.png "Oh look at me, I can do images!")
+Well, I am happy to say that there is nothing you can do and it just sucks. Wouldn't that be such a shitty tutorial?
 
-So there you go, you technically know everything about CAN. It is a bunch of microcontrollers, or other devices, with two wires connecting to all of them that allow for mass data transfer throughout the entire system. [It is that simple.](null "I like things that are simple")
+## Interrupts
 
-### CAN in Depth
-Looking at the [diagram above](null "Seriously, it is the best diagram I have ever seen. I love it. I am going to print it out and marry it. Wait, what is going on?") you [might notice some interesting features.](null "Or you might not, I don't know your life") First things first, what the hell do the different sections mean? You can see the data field, a whopping 8 bits of data, but what the hell is the rest of that crap?
+The best way to handle multiple input checks, and actually the best way to handle even a single input check, is to use interrupts. Interrupts are exactly as they sound, they *interrupt* the code. Imagine the ATmega is talking...
 
-Well, let us venture into the [tabular world of tables.](null "This sentence doesn't make sense, but I had to have a transition.")
+> "Oh hello, I am an ATmega, and I am here to tell you a great story about the trials of my people. A long, long time ag-"
+> 
+> *Button Press* 
+> *Inflates Balloon*
+> 
+> "-o there was an old man named Charles Gemshwap..."
 
-| Field | Meaning |
-|:--- | :--- |
-| Start of Frame | A bit of 0 to tell nodes to start listening, for the CAN line has something to say. [Interestingly](null "Actually this is pretty common, so not that interesting...") the 0 in the CAN bus means a data point, while the 1 is the default. So when no CAN message is going across the line, it is recognized as a bunch of 1s.|
-| Arbitration Field | This field is a unique identifier for the message, and what that means is left up to the [user to decide.](null "Awwww, how sweet!") In most cases it says who the message is for (remember there can be a lot of nodes connected to the CAN bus) and what the priority is. How that is done varies, and we will go over that in a future section.|
-| Control Field | This field specifies how long the data field will be. It is 4 bits and it says how many [bytes](null "byte = 8 bits") the Data field will be. |
-| Data Field | This field holds all the data, whatever that may be. Once again, it is left up to [us to decide how to use it.](null "Kindof, although I will go over why we have no control later on")|
-| CRC Field | Error checking field, ensures that the data is transmitted correctly.|
-| End of Frame | The ending note for all CAN messages. 7 bits of 1.|
+Notice how the *moment* the button was pressed, the ATmega stopped what it was doing[+](null "Telling a great narative") and immediately inflated the balloon. Then it went back to what it was doing, as if no balloon was ever inflated. That is an interrupt -- and they are awesome.
 
-*Note: You can also find all of this on the Wikipedia article about the*[CAN bus (LINK)](https://en.wikipedia.org/wiki/CAN_bus "Click me! Click me!")* and it gives a more detailed overview!*
+*Note: In order to use interrupts you will have to `#include <avr/interrupt.h>`*
+
+### Tell Me To Interrupt You
+
+Sometimes, though, you don't want the ATmega to interrupt the code it is doing (sometimes there is a very high priority task that needs to be completed) and so the ATmega defaults to not interrupting.
+
+In order to enable `global interrupts` you just have to add a quick little line at the top of your `main()` function.
+
+```
+int main(void){
+    sei(); // Enable global interrupts
+
+    // Other code...
+}
+```
+
+The opposite of `sei()` is `cli()` which disables global interrupts. This can be desired for a number of reasons, and they are generally used together for executing an un-interruptable task.
+
+```
+int do_something(void){
+    cli(); // Disable interrupts
+
+    // Some code that does stuff
+
+    sei(); // Re-enable interrupts
+}
+```
+
+So now we can enable and disable interrupts at will, but the ATmega won't change anything. The ATmega is really, really stupid. You have to lay it all out for it...
+
+### Set Up My Pin and I'll Interrupt You [+](null "This is my new pickup line")
+
+Imagine if you were talking and someone interrupted you for no damn reason?[+](null "This happens a lot actually...") You get pretty annoyed. If someone interrupts your story about how you once befriended a giraffe in order to push you out of the way of an incoming car that would have killed you, then y'know, you wouldn't be all *that* annoyed. 
+
+Once again, the ATmega doesn't know what you want to be interrupted by so it defaults to never interrupting you. Thats right, telling the ATmega `sei()` will tell it 
+
+> "Hey, I want you to interrupt me." 
+
+and it will respond with:
+
+> "Okay."
+
+Then you press a button, and it won't do anything. So you might say:
+
+> "Hey, why didn't you interrupt me? You just sat there doing nothing!"
+
+And it would respond, like a good friend, with:
+
+> "Well, you didn't tell me *when* you wanted to be interrupted."
+
+You might think this is bad behavior, but it is highly preferable. Otherwise a floating voltage at a pin may accidentally toggle an input pin[+](null "This is why we use pull-down/up resistors!") and the ATmega would interrupt you randomly for a pin you don't care about. 
+
+Now you are probably thinking:
+
+> "Okay Byron, I get it. Now just tell me how the hell to do this and stop making all of these stupid text boxes."
+
+to which I would respond:
+
+> "I realized I wasn't using enough of these text boxes, so I figured I would use them!"
+
+### External Pin Up Girls and ATmegas [+](null "I had two paths in life -- I chose the nerdy path. I regret everything")
+
+*Note: There are a number of different interrupt options; this applies to external interrupts such as button presses. we'll go over other ones briefly later.*
+
+It would be easy enough to just tell the ATmega to interrupt you on pin 16.[+](null "This will be our example pin for interrupts!") But *when* would it do that? When the voltage is 0? Should it repeatedly tell you the voltage is at 0? Or should it be when it is at 5V? Should it just tell you when the voltage has changed, or when it reaches a certain point?
+
+Well it is time to open up that handy-dandy ATmega tutorial.[+](null "You still have it around right?") Go to page 56, or section 12.2.
+
+What you will find there is the documentation for how to set up these interrupt pins. Most basically, you set the bits for `EICRA` to set up *what* the interrupt will look like and you set up the bits for `EIMSK` to tell it which pins to look at.[+](null "Note that the setup for EICRA applies to *all* the pins in EIMSK; so you can't get behavior on two different interrupt pints.")
+
+For example, to set up pin 16 to generate an interrupt when the voltage goes low (0V) you would do:
+
+```
+EICRA = _BV(ISC00); // Trigger on 0V
+EIMSK = _BV(INT0);  // Pin 16 is interrupt
+```
+
+There are a few other things to note in the documentation, and I ~~recommend~~ require you to read all of section 12.[+](null "It is short -- don't be a baby") 
+
+However, you aren't done yet. What will the ATmega do with this interrupt it has generated? If you don't tell it to do anything, it is going to crash and that is not good.[+](null "I am actually serious, if you don't set it to do things with an interrupt it will call an error call and restart the program. Can cause some weird bugs.")
+
+#### The ISR()
+
+Now the C standard does not say how to implement interrupts.[+](null "And rightly so, that is too much bureaucracy for my taste. Bad enough they tell us `int` stands for integer.") For different compilers you may see different implementations, but thankfully at REVO Electric Racing[+](null "We just changed our name -- its weird. Gotta update that Resume!") we use AVR-GCC which has a nice implementation:
+
+```
+ISR( {VECTOR} ){
+    // Do something
+}
+```
+
+Let's break this down.[+](null "Fine... I'll break it down. Y'know you don't really do anything. I think it is unfair that the writer of the tutorial has to do everything, I think tutorials should be a give and take between the reader and the writer.")
+
+- `ISR` stands for the *Interrupt Service Routines* and will let the ATmega know what to keep track of for interrupts. 
+
+It is hard to really break down what the call *is*. You don't use it in a function call or in the `main()` function, it is almost like a definition of a function, but with wierd syntax. Check out the example code to see what it looks like in real life.
+
+- `{VECTOR}` is an identifier for the interrupt to be used. We'll go over this real soon!
+
+- Between the brackets where the `//Do something` comment is is where we will write what we want the ATmega to do on an interrupt. 
+
+Imagine it as a function call that is only called when the interrupt happens -- which means you can do anything![+](null "If you put your mind to it!") It is a bit wierd functionality, and it may take you a bit of time to get used to it.[+](null "There are also some cases where you would want nothing to happen on an interrupt -- look through the documentation to get some ideas! Be creative!")
+
+---
+
+This seems simple enough! Now we just need to go over what the VECTOR is...
+
+#### Vector
+
+The interrupt vector is a unique identifier to tell the ATmega what to keep track of for interrupts. You see, the most basic of interrupts are the input interrupts. But there are also software interrupts (such as timers and CAN calls[+](null "Shhhhh!!! Just a sneak peak of what is to come!"). There isn't really a list of what interrupt vectors are available[+](null "I will be looking into compiling one of some sort"), so you might need to do some googling in order to find what you need. 
+
+However, basic input interrupts vectors are easy to find. Look through the pinouts list, and everything with an `INT` in the name is not an integer, but an *interupt.* You then just append `_vect` to the end of the name in order to get the unique identifier.[+](null "Isn't that fancy?")
+
+For example, Pin 16 is `INT1` (interrupt 1) and you would do:
+
+```
+ISR( INT1_vect ){
+    //Do something
+}
+```
+
+`INT{0-3}` are general input interrupt pins, while `PCINT` pins (which is every pin except 5 of them) are Pin Change Interrupt. A lot of this information is also an easy google search away!
+
+## A Summary
+
+Alright, so I threw a lot at you.[+](null "You deserve it.")  Let's list out all the things you need to do to set up an interrupt:
+
+- Enable global interrupts ( with an `sei();` call)
+- Set up pins with what counts as an interrupt and which pins to detect on
+- Give a thing to do with an interrupt using the correct vector identifier
+
+A lot of this may still be confusing -- and that is okay! Look through the example code[+](null "Check out the comments -- this is how your code WILL look."), play around with it; try using this in your programs. If you run into problems Google is your friend[+](null "I am not") and look through the documentation.
