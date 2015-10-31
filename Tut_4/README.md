@@ -76,6 +76,13 @@ ADCSRB |= _BV(AREFEN);
 
 Starting to feel comfortable with the bit shifting stuff?
 
+#### Multiplex Me
+Before I go into how to read the ADC, we have to go over where the ADC sources its input voltage. 
+
+There is only one ADC on the ATmega but we can use 11 different pins to convert analog to digital. The ATmega does this by *multiplexing* the ADC input. This means that it will only do one conversion at a time, and when it is done it will go onto the next one. All 11 pins can use the ADC for different purposes.
+
+By default the ADC input pin is ADC0 (pin 11). You can change this in the ADMUX register by selecting a different *channel*.[[+]](null "The reason it is a 'channel' instead of a 'pin' is because there are actually other ADC inputs you can use, like the internal temperature sensor") You can find the data for this on page 232 of the datasheet, or section 21.10.2.
+
 #### Are We Done Yet?
 Actually, yes. Mostly.
 

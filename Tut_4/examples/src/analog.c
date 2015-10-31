@@ -14,7 +14,10 @@ int main (void) {
 
     //Set internal reference voltage as AVcc
     ADMUX |= _BV(REFS0);
-    //Reads by default from ADC0
+
+    //Reads by default from ADC0 (pin 11); this line
+    //  is redundant.
+    ADMUX |= _BV( 0x00 );
 
     //No prescaling on PWM clock
     TCCR0B |= _BV(CS00);
