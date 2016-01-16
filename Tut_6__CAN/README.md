@@ -8,7 +8,7 @@ Most simply CAN is a method of networking an arbitrary system with many differen
 
 CAN is a way of life.[[+]](null "At this point you should consider turning away and learning CAN on your own. The goofiness will only increase 10x") Well, a way of life in terms of the embedded systems world. You see, CAN is not a program, software or programming language -- it is just a protocol[[+]](null "Invented at Bosch in the 1980s, so it is relatively new in the grand scheme of things."). It says that there are two wires, CAN-Low and CAN-High, that span across many nodes -- called the CAN bus -- and when they have their voltages *pulled together* it counts as a 1, and when the voltages are *pulled apart* it is a 0. What the sequence of 1s and 0s say is also specified in the protocol.[[+]](null "Thankfully, I don't know what we would do otherwise...") All of this can[[+]](null "Hah! Get it? CAN?") be seen in the following diagram pulled shamelessly from Wikipedia:
 
-![CAN-bus.png](https://raw.githubusercontent.com/OlinREVO/CAN_101/master/Tut_5/CAN-bus.png "Oh look at me, I can do images!")
+![CAN-bus.png](https://raw.githubusercontent.com/OlinREVO/CAN_101/master/Tut_6__CAN/CAN-bus.png "Oh look at me, I can do images!")
 
 So there you go, you technically know everything about CAN. It is a bunch of microcontrollers, or other devices, with two wires connecting to all of them that allow for mass data transfer throughout the entire system. It is that simple.[[+]](null "I like things that are simple")
 
