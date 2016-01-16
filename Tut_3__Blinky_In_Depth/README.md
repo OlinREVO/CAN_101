@@ -36,7 +36,7 @@ This line of code sets up a macro. A brief definition of macro that I found onli
 > You may define any valid identifier as a macro, even if it is a C keyword. The preprocessor does not know anything about keywords. This can be useful if you wish to hide a keyword such as const from an older compiler that does not understand it.”
 > -https://gcc.gnu.org/onlinedocs/cpp/Macros.html 
 
-So what this line of code does is sets up F_CPU to be replaced by 1000000L every time F_CPU is mentioned. The number that you see is 1,000,000 with a Long identifier, which is a big enough data type that it won’t overflow. 
+So what this line of code does is sets up `FCPU` to be replaced by 1000000L every time `FCPU` is mentioned. The number that you see is 1,000,000 with a Long identifier, which is a big enough data type that it won’t overflow. 
 
 Naively you may think that this line of code sets the frequency of the CPU on the ATmega, and I would tell you that you are clever. Wrong, but clever. Instead, it tells the compiler the frequency of your ATmega. This line needs to be included first because the included libraries will utilize this value.
 
@@ -56,7 +56,7 @@ This includes functions for the AVR input and output operations. For our uses, i
 #include <util/delay.h>
 ```
 
-This allows us to use the _delay_ms() function. The util/delay.h library calls on the F_CPU macro, which is why F_CPU needs to be defined at the very top of the code. Can you piece together why the F_CPU is necessary for delays?
+This allows us to use the `_delay_ms()` function. The `util/delay.h` library calls on the `FCPU` macro, which is why `FCPU` needs to be defined at the very top of the code. Can you piece together why the `FCPU` is necessary for delays?
 
 
 
@@ -76,7 +76,7 @@ If you do not know what I mean by this, hit the google’s and get learning.
 DDRE |= _BV(PE1);
 ```
 
-Finally we get into something fun. This line of code is the first thing executed when the ATmega starts. It ORs DDRE (a macro)  with  `_BV(PE1)`  (a macro function for a macro… ) Well shit. What does all this mean?
+Finally we get into something fun. This line of code is the first thing executed when the ATmega starts. It ORs `DDRE` (a macro)  with  `_BV(PE1)`  (a macro function for a macro… ) Well shit. What does all this mean?
 
 DDRE can be found on the 79th page of the ATmega datasheet that can be found in this folder. DDRE is a macro definition of the memory location of the “Port E Data Direction Register”. A register is a “collection of flag bits for a computer processor” - Wikipedia. If you look at the datasheet you will notice that DDRE is a byte of memory with all of the bits set to 0. So when we OR it, we flip one of those bits to a 1 so that the CPU knows that we want that flag set. 
 
@@ -160,9 +160,9 @@ Look at that `_BV()`! Making our code so much more readable. This XORs the bit f
 ```
 _delay_ms(500);
 ```
-I feel like this line is pretty self-explanatory. The one thing I will add here is that the F_CPU that we defined way earlier is INCREDIBLY important here. This line says that we want our LED to blink every second (off for half a second, on for half a second). 
+I feel like this line is pretty self-explanatory. The one thing I will add here is that the `FCPU` that we defined way earlier is INCREDIBLY important here. This line says that we want our LED to blink every second (off for half a second, on for half a second). 
 
-Our ATmegas run at 1Mhz. This is necessary information for the compiler to know, so that it can set up how many clock cycles are needed to pass through `_delay_ms(500)`. If we put the wrong value for F_CPU, then it would check the wrong number of clock cycles and the delay would not delay for the correct amount of time. 
+Our ATmegas run at 1Mhz. This is necessary information for the compiler to know, so that it can set up how many clock cycles are needed to pass through `_delay_ms(500)`. If we put the wrong value for `FCPU`, then it would check the wrong number of clock cycles and the delay would not delay for the correct amount of time. 
 
 ### Phew! 
 That was a lot of information, especially for like 9 lines of code. Now to make things more complicated… 

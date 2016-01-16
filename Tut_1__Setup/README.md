@@ -6,10 +6,10 @@ Although you can program in Windows, I don’t know how nor do I care for learni
 
 ### Install and Learn Git
 For version control on REVO we use git and github. Learn how to use git and learn how it interfaces with github. You will find your code more readily accepted into the main repo if you have good git practice.
-Check out https://git-scm.com/book/en/v2/Getting-Started-Git-Basics 
+Check out [https://git-scm.com/book/en/v2/Getting-Started-Git-Basics](https://git-scm.com/book/en/v2/Getting-Started-Git-Basics)
 
 ### Get on the Olin REVO Github page
-https://github.com/OlinREVO
+[https://github.com/OlinREVO](https://github.com/OlinREVO)
 
 ### Clone and Run the Setup script with all of the tools necessary
 (Debian Only)

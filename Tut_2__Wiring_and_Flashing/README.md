@@ -86,11 +86,13 @@ If the AVR programmer’s light does not turn green, then you wired it upside do
 
 ### You Can Now Program the ATmega!
 ##### Get the Code
-You will be able to find code in the blinky/ folder in Tut_2. Clone this repo if you haven't already to get the example code.
+You will be able to find code in the blinky/ folder in `Tut_2`. Clone this repo if you haven't already to get the example code.
 
 ##### Compile and Flash the ATmega
 Go into the cloned folder and run:
+```
 sudo make FILE=blinky flash
+```
 
 Check the output log, if there are errors see what they mean and try to debug them yourself. Check your connections. 
 
