@@ -47,4 +47,78 @@ If you do want to get an in-depth understanding of how the CAN system works, che
 
 Instead of going over *how* to get CAN working, I will instead go over how we are using it by referencing our CAN api.
 
-[WIP]
+### Using the CAN api
+
+The first step in using the CAN api is to open up the `api.h` file in the `src/inc/` folder. Look it over, and the glorious simplicity it holds. That is hours and hours of reading documentation and testing in order to get basic CAN functionality down to 3 easy-to-use function calls.[[+]](null "Not like I am salty or anything")
+
+Let us skip over the `#define`s for now, and go straight to the core functionality. The three commandments.
+
+```
+int CAN_init( void );
+
+int CAN_Tx( uint8_t ident, uint8_t msg[], uint8_t msg_length );
+
+int CAN_Rx( uint8_t ident, uint8_t msg_length, uint8_t mask );
+```
+
+The first function is self-explanatory. Call it at the ATmega startup (or whenever you want to start CAN) and it sets up all the flags and bits and whatnots to get CAN started with our system. No other work necessary.[[+]](null "Except if the CAN line is stuck in a dominant mode-- then there will be errors galore")
+
+The next two functions will require some definitions. `Tx` stands for *Transmission*. `Rx` stands for *Receiver*. I could have just called these functions `CAN_send()` and `CAN_receive()` but I didn't because `Tx` and `Rx` are shorter to write.
+
+These two functions require a bunch of inputs, and we will go over them one by one. Both share two common inputs: `uint8_t ident` and `uint8_t msg_length`.
+
+`uint8_t ident` refers to the *message identifier* which is what `CAN_tx()` uses for the Arbitration field and is what `CAN_rx()` looks for in a message to ~~find true love~~ a matching message. 
+
+The types of messages that you can use are defined at the top of `api.h` and all start with `IDT`.[[+]](null "There are also ones with `_l` appended -- ignore those for now") So if you want to send a throttle message along the CAN line you would use something like `IDT_throttle` for `uint8_t ident`.
+
+`uint8_t msg_length` is pretty self-explanatory -- it is the message length for the CAN message. If you notice, both `CAN_tx()` and `CAN_rx()` require a message length, which means the length of the message has to be determined before the message is sent.[[+]](null "There is a good reason for this. If the sender only sends 2 bytes of info, but the receiver expects 4 bytes then the receiver will read 2 bytes of nonsense from the registers. This will lead to many, many issues.")
+
+Thankfully, these lengths are also defined at the top of `api.h` and are the `#define`s starting with `IDT` and ending with `_l`.[[+]](null "The `_l` stands for *length*. It is pretty confusing, I know") 
+
+So if you are sending a throttle message on the CAN line, you would use `IDT_throttle` for `uint8_t ident` and `IDT_throttle_l` for `uint8_t msg_length`. Easy. But wait -- there is another variable! And it has a weird `[]` thingy on it!
+
+### You Should Really Learn C
+
+If you have no idea what `uint8_t msg[]` means, you should learn C. It is honestly really easy.[[+]](null "It gets a bad rep because you have to manage memory manually. It also gets a bad rep because it doesn't suck and other-lanuage users (Java people) feel bad and try to make C sound like trash. It's like West Coast People -- they feel inferior about where they live and always try to make the East Coast sound like trash.") For a quick reminder, it means a pointer.
+
+For a quick side note on coding style: `uint8_t msg[]` and `uint8_t *msg` mean (literally) exactly the same thing. Both are pointers. However, using `uint8_t msg[]` tells someone looking over the code that `msg` points to the beginning of an *array* of values. There is no array type in C, as all arrays decay into points when passed out of/into a function.
+
+"Enough about C Byron!" you might say, "How the hell do I use it?" Well that is easy. The simplest way to explain it is with an example!
+
+```
+... // Some code comes before which calls CAN_init()
+
+uint8_t msg[ IDT_throttle_l ]; // These sets up msg as an array containing uint8_t elements of size IDT_throttle_l
+
+msg[0] = 0xFF; // FULL THROTTLE!!!
+msg[1] ... // The other elements are set.
+
+CAN_Tx( IDT_throttle, msg, IDT_throttle_l ); // Send the message!
+
+... // Some more code will come after
+```
+
+It really is that simple. 
+
+### Receiving a Message
+
+Sending a message is simple. Receiving a message is even simpler.[[+]](null "It is not.") The thing with receiving a message is that you have to tell the ATmega to receive the message before it comes, or else it will miss the message.
+
+There are generally hundreds of CAN messages going across the CAN line at any given time -- and generally your node will not give a shit what any of them say.[[+]](null "Except the Watchdog node.") So by default the ATmega ignores all of them.
+
+When you set up `CAN_Rx()` for a specific message ID, such as the throttle message, your ATmega will send an interrupt when a message matching that ID has arrived. You MUST catch this message with `ISR(CAN_INT_vect)`.[[+]](null "If you forgot how to work with interrupts, read an earlier tutorial.")
+
+However, what if you want to catch a lot of messages that go down the line? What if, in fact, you want to read every single message that goes across CAN?[[+]](null "I'm looking at you Watchdog node!") There are only 6[[+]](null "I forgot the exact number. It might be 5. Who cares?") message objects per ATmega which means that you can only set up an inbox for 6 different messages -- it would be impossible if there are 7 unique message IDs!
+
+That is where the `uint8_t mask` variable comes into play. It is a bitmask for the incoming messages. That is just fancy, mumbo-jumbo for a filter.
+
+It works like this: Where `uint8_t mask` has a 1, it compares the message identifier bit with the bit of the `uint8_t ident` value you supplied. Where `mask` is a 0, it does not compare and assumes that it matches.
+
+A `mask` value of `0x00` means that all the bits are 0 (0000 0000). This is a `global` mask, and will cause the ATmega to interrupt for every CAN message that comes down the line. On the opposite end is a `mask` value of `0xff` which is where the bits are all 1 (1111 1111). This is a `single` mask and will only interrupt for an exact match with the message identifier.
+
+Thankfully, you don't have to remember that, because you can just use `IDM_global` for a global mask and `IDM_single` for an exact-match mask. Of course you can also do value in between `0x00` and `0xff`. It gets a bit trickier when you do this as you get to play with bits!
+
+### Okay, Now How Do I Read a Message?
+
+TODO
+
