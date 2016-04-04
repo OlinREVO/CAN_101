@@ -85,6 +85,8 @@ For a quick side note on coding style: `uint8_t msg[]` and `uint8_t *msg` mean (
 
 "Enough about C Byron!" you might say, "How the hell do I use it?" Well that is easy. The simplest way to explain it is with an example!
 
+### Sending a Message
+
 ```
 ... // Some code comes before which calls CAN_init()
 
@@ -120,5 +122,4 @@ Thankfully, you don't have to remember that, because you can just use `IDM_globa
 
 ### Okay, Now How Do I Read a Message?
 
-TODO
-
+Now that you have received a message, you might want to read it. Sadly, due to U.S. Labor Laws this is illegal.
