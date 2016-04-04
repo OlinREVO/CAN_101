@@ -122,4 +122,25 @@ Thankfully, you don't have to remember that, because you can just use `IDM_globa
 
 ### Okay, Now How Do I Read a Message?
 
-Now that you have received a message, you might want to read it. Sadly, due to U.S. Labor Laws this is illegal.
+Now that you have received a message, you might want to read it. Sadly, due to U.S. Labor Laws this is illegal. 
+
+Thankfully on REVO we don't care about the law. The first step in reading a CAN message is to figure out which MOb it came from. This can be found in the `CANSIT2` register. Use something like `bit_is_set` to check the different MObs. 
+
+After you figure out which MOb has generated the interrupt, use `CANPAGE` to select the MOb.[[+]](null "Use the datasheet Luke!") Be sure to set `CANPAGE` to `0x00` first. 
+
+Now here comes the easy part. The message is stored in.... *drumroll* .... `CANMSG`! There are some weird features to the `CANMSG` register and I recommend that you read the datasheet section on it.[[+]](null "Section 19.11.6") One thing to remember is that `CANMSG` will auto-increment after every read/write cycle. 
+
+That is basically it. For a simple, 1-byte-length message on MOb 0, the code would look something like this:
+```
+uint8_t message = 0;
+if( bit_is_set(CANSIT2, 0)){
+  CANPAGE = 0x00;
+  CANPAGE = 0 << MOBNB0; // This doesn't make sense for MOb 0 but for others it does
+
+  message = CANMSG;
+}
+
+// message contains the data!
+```
+
+It really is that simple.
