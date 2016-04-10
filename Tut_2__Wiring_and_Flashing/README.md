@@ -91,7 +91,7 @@ You will be able to find code in the blinky/ folder in `Tut_2`. Clone this repo 
 ##### Compile and Flash the ATmega
 Go into the cloned folder and run:
 ```
-sudo make build=blinky flash
+sudo make build=Blinky flash
 ```
 
 Check the output log, if there are errors see what they mean and try to debug them yourself. Check your connections. 
