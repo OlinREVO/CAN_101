@@ -62,7 +62,10 @@ To do this, we use this line of code:
 ADCSRA |= _BV(ADEN) | _BV(ADPS2) | _BV(ADPS1) | _BV(ADPS0);
 ```
 Note: You can use `|` in between to combine the bits to be flipped. This is the fanciest combo-bit-shifting mumbo-jumbo that is allowed on one line. Anything more and I will hunt you down and make you turn it into multiple well-commented lines.
-We know by now what most of this code does, it sets different bits of the ADCSRA register[[+]](NULL " It is time to pull up that handy-dandy reference manual."). ADEN will turn the ADC on, and ADPS[0-2] will tell the ADC how fast to run. Check the datasheet for exact specifications[[+]](NULL "Ctrl-F is for cheaters.").  #### Who Do I Reference? Are You My Relative!?
+
+We know by now what most of this code does, it sets different bits of the ADCSRA register[[+]](NULL " It is time to pull up that handy-dandy reference manual."). ADEN will turn the ADC on, and ADPS[0-2] will tell the ADC how fast to run. Check the datasheet for exact specifications[[+]](NULL "Ctrl-F is for cheaters.").  
+
+#### Who Do I Reference? Are You My Relative!?
 No, I am not talking about when you write a research paper. This is for the ADC. Voltage is relative, as is everything in life[[+]](NULL "Is this 3 d33p 5 u? Oh God, what have I become…"). The ADC will translate voltage into numbers. Where with digital inputs everything is reference to the ATmega’s ground, the ADC can be set to reference an external source. 
 
 For now, we will just keep that idea in the back of our head, and set the ADC to just reference internal ground and input voltage (Analog Vcc). 
